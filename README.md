@@ -1,5 +1,3 @@
-### `README.md`
-
 # PINNs: A Scalable Physics-Informed Neural Network Suite
 
 This repository contains a modular and scalable implementation of **Physics-Informed Neural Networks (PINNs)** using PyTorch. Unlike standard neural networks that rely solely on data, PINNs embed the underlying partial differential equations (PDEs) into the loss function, allowing the model to learn the physics of the system.
