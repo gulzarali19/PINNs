@@ -89,5 +89,5 @@ The solver generates heatmaps showing the predicted evolution of the system.
 
 ## 📜 License
 
-This project is licensed under the Creative Common License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the Creative Common License - see the [LICENSE](https://github.com/gulzarali19/PINNs/blob/main/LICENSE) file for details.
 
