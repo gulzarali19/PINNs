@@ -37,8 +37,7 @@ def main():
     
     solver = PINNSolver(model, problem, device=device)
 
-    # 5. Data Generation (Using parameters from config)
-    # Note: In a real project, replace this with a proper data loader
+    # 5. Data Generation
     data = {
         'ic_x': torch.linspace(-1, 1, 100).view(-1, 1).to(device),
         'ic_t': torch.zeros(100, 1).to(device),
@@ -50,9 +49,23 @@ def main():
         'f_t': torch.rand(cfg['training']['batch_size'], 1).requires_grad_(True).to(device)
     }
 
-    # 6. Train
+    # 6. Train and get history (Ensure this is INDENTED inside main)
     print(f"Running PINN for: {cfg['problem']} on {device}")
-    solver.train(data, epochs=cfg['training']['epochs'])
+    history = solver.train(data, epochs=cfg['training']['epochs'])
+
+    # 7. Visualization (Imported from plotting.py)
+    try:
+        from utils.plotting import plot_loss, plot_result_1d, plot_result_2d
+        
+        plot_loss(history)
+
+        if cfg['problem'] == "burgers_1d":
+            plot_result_1d(model, device=device, title="Burgers 1D Solution")
+        elif cfg['problem'] == "heat_2d":
+            plot_result_2d(model, device=device)
+            
+    except ImportError:
+        print("Could not find utils/plotting.py. Ensure the file exists.")
 
 if __name__ == "__main__":
     main()
