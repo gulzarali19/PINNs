@@ -4,7 +4,7 @@ network:
   hidden_layers: [20, 20, 20, 20, 20, 20, 20, 20]
   output_dim: 1
 training:
-  epochs: 10000
+  epochs: 100000
   learning_rate: 0.001
   batch_size: 1024
 physics:
