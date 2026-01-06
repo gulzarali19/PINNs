@@ -1,0 +1,10 @@
+problem: "heat_2d"
+network:
+  input_dim: 3 # x, y, t
+  hidden_layers: [32, 32, 32, 32]
+  output_dim: 1
+training:
+  epochs: 5000
+  learning_rate: 0.001
+physics:
+  alpha: 0.01

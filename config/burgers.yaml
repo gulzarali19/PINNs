@@ -1,0 +1,11 @@
+problem: "burgers_1d"
+network:
+  input_dim: 2
+  hidden_layers: [20, 20, 20, 20, 20, 20, 20, 20]
+  output_dim: 1
+training:
+  epochs: 10000
+  learning_rate: 0.001
+  batch_size: 1024
+physics:
+  nu: 0.003183  # 0.01/pi

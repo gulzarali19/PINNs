@@ -6,7 +6,13 @@ class PINNSolver:
         self.model = model.to(device)
         self.pde_residual_fn = pde_residual_fn
         self.device = device
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
+        
+	params = list(self.model.parameters())
+        if hasattr(self.problem, 'learnable_params'):
+            params += self.problem.learnable_params
+            print(f"Inverse Mode: Discovering parameters...")
+	
+	self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
 
     def train(self, data, epochs=5000):
         self.model.train()
