@@ -77,4 +77,6 @@ def plot_result_2d(model, x_range=[0, 1], y_range=[0, 1], time_slices=[0.0, 0.5,
     plt.tight_layout()
     save_path = 'results/heat_2d_snapshots.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"2D snapshots saved to {save_path
+    print(f"2D snapshots saved to {save_path}")
+    plt.show()
+    plt.close()
