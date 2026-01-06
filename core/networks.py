@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-class MLP(nn.Module):
+class PINNNet(nn.Module):
     def __init__(self, input_dim, hidden_layers, output_dim):
         super().__init__()
         layers = []
