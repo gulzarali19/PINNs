@@ -2,7 +2,7 @@
 
 This repository contains a modular and scalable implementation of **Physics-Informed Neural Networks (PINNs)** using PyTorch. Unlike standard neural networks that rely solely on data, PINNs embed the underlying partial differential equations (PDEs) into the loss function, allowing the model to learn the physics of the system.
 
-## 🚀 Features
+## Features
 
 * **Equation Agnostic**: Easily switch between 1D Burgers, 1D Heat, and 2D Heat equations via configuration files.
 * **Modular Architecture**: Separate directories for core solver logic, physics definitions, and visualization utilities.
@@ -11,7 +11,7 @@ This repository contains a modular and scalable implementation of **Physics-Info
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 PINNs/
@@ -33,7 +33,7 @@ PINNs/
 
 ---
 
-## 🧠 Physics Covered
+## Physics Covered
 
 ### 1. 1D Burgers' Equation
 
@@ -50,7 +50,7 @@ Models how heat diffuses through a 2D plane over time:
 
 ---
 
-## 🛠️ Installation & Usage
+## Installation & Usage
 
 ### 1. Clone the repo
 
@@ -78,7 +78,7 @@ python main.py --config config/burgers.yaml
 
 ---
 
-## 📊 Results
+## Results
 
 The solver generates heatmaps showing the predicted evolution of the system.
 
