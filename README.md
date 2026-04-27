@@ -254,22 +254,6 @@ plot_comparison_1d(
 
 ---
 
-## 📊 Example Results
-
-### Burgers' Equation
-```
-Epoch 10000 | Loss 3.245e-03 | IC 1.2e-04 | BC 2.1e-04 | PDE 3.1e-03
-Epoch 20000 | Loss 1.023e-03 | IC 5.3e-05 | BC 8.2e-05 | PDE 9.8e-04
-Epoch 50000 | Loss 2.134e-04 | IC 1.2e-05 | BC 2.3e-05 | PDE 2.1e-04
-```
-
-### Convergence Metrics
-- Initial loss: ~10⁰
-- After 10K epochs: ~10⁻³
-- After 50K epochs: ~10⁻⁴ (depending on problem)
-
----
-
 ## 🔬 Physics Equation Details
 
 ### 1D Burgers' Equation
