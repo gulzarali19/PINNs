@@ -10,13 +10,13 @@ A **modular, scalable, and extensible** framework for solving forward and invers
 
 ## 🎯 Features
 
-- ✅ **Multiple Physics Equations**: Burgers, Heat, Wave, Schrodinger, Poisson equations
-- ✅ **Flexible Architecture**: Customizable network depth, width, and activation functions
-- ✅ **Forward & Inverse Problems**: Discover unknown physics parameters during training
-- ✅ **Automatic Differentiation**: PyTorch autograd for exact PDE residuals
-- ✅ **Comprehensive Visualization**: Loss curves, spatial-temporal solutions, residuals
-- ✅ **Easy Configuration**: YAML-based hyperparameter management
-- ✅ **Production Ready**: Type hints, docstrings, error handling
+-  **Multiple Physics Equations**: Burgers, Heat, Wave, Schrodinger, Poisson equations
+-  **Flexible Architecture**: Customizable network depth, width, and activation functions
+-  **Forward & Inverse Problems**: Discover unknown physics parameters during training
+-  **Automatic Differentiation**: PyTorch autograd for exact PDE residuals
+-  **Comprehensive Visualization**: Loss curves, spatial-temporal solutions, residuals
+-  **Easy Configuration**: YAML-based hyperparameter management
+-  **Production Ready**: Type hints, docstrings, error handling
 
 ---
 
