@@ -322,10 +322,8 @@ $$-\nabla^2 u = f(x,y)$$
 
 ## 📚 References
 
-- **Original PINN Paper**: [Physics-Informed Neural Networks](https://arxiv.org/abs/1711.10566)
-- **Burgers' Equation**: [Raissi et al. 2017](https://arxiv.org/abs/1711.10566)
-- **Wave Equations**: [Raissi et al. 2018](https://arxiv.org/abs/1711.10566)
-- **Inverse Problems**: [Raissi et al. 2019](https://arxiv.org/abs/1907.04026)
+- **Physics Informed Deep Learning (Part II): Data-driven Discovery of Nonlinear Partial Differential Equations**: [Raissi et al. 2017](https://arxiv.org/abs/1711.10566)
+- **Physics-Informed Neural Networks and Extensions**: [Raissi et al. 2024]([https://arxiv.org/abs/1907.04026](https://arxiv.org/pdf/2408.16806))
 
 ---
 
