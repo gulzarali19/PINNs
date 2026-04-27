@@ -1,10 +1,10 @@
 """
-2D Heat Equation PINN solver.
+2D Wave Equation PINN solver.
 
-The heat equation models thermal diffusion in 2D space:
-    u_t = alpha * (u_xx + u_yy)
+The 2D wave equation describes wave propagation in 2D:
+    u_tt = c^2 * (u_xx + u_yy)
 
-where alpha is the thermal diffusivity.
+where c is the wave speed.
 """
 
 import torch
@@ -13,29 +13,29 @@ from core.base_problem import ForwardProblem
 from typing import Dict
 
 
-class Heat2DForward(ForwardProblem):
+class Wave2DForward(ForwardProblem):
     """
-    Forward 2D Heat Equation Problem.
+    Forward 2D Wave Equation Problem.
     
-    Solves: u_t - alpha * (u_xx + u_yy) = 0
+    Solves: u_tt - c^2 * (u_xx + u_yy) = 0
     """
     
-    def __init__(self, alpha: float = 0.01, device: str = "cpu"):
+    def __init__(self, c: float = 1.0, device: str = "cpu"):
         """
-        Initialize 2D Heat Equation problem.
+        Initialize 2D Wave Equation problem.
         
         Args:
-            alpha: Thermal diffusivity coefficient
+            c: Wave speed (default: 1.0)
             device: Computation device
         """
         super().__init__(device)
-        self.alpha = alpha
+        self.c = c
 
     def pde_residual(self, model, x: torch.Tensor, y: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
         """
-        Compute the 2D heat equation residual.
+        Compute the 2D wave equation residual.
         
-        u_t - alpha * (u_xx + u_yy) = 0
+        u_tt - c^2 * (u_xx + u_yy) = 0
         
         Args:
             model: Neural network model
@@ -46,52 +46,31 @@ class Heat2DForward(ForwardProblem):
         Returns:
             Mean squared residual
         """
-        # Ensure gradients are tracked
         x = x.detach().requires_grad_(True).to(self.device)
         y = y.detach().requires_grad_(True).to(self.device)
         t = t.detach().requires_grad_(True).to(self.device)
         
         u = model(x, y, t)
         
-        # Time derivative
-        u_t = torch.autograd.grad(
-            u, t,
-            grad_outputs=torch.ones_like(u),
-            create_graph=True
-        )[0]
+        # Time derivatives
+        u_t = torch.autograd.grad(u, t, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+        u_tt = torch.autograd.grad(u_t, t, grad_outputs=torch.ones_like(u_t), create_graph=True)[0]
         
-        # First spatial derivatives
-        u_x = torch.autograd.grad(
-            u, x,
-            grad_outputs=torch.ones_like(u),
-            create_graph=True
-        )[0]
-        u_y = torch.autograd.grad(
-            u, y,
-            grad_outputs=torch.ones_like(u),
-            create_graph=True
-        )[0]
+        # Spatial derivatives
+        u_x = torch.autograd.grad(u, x, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+        u_xx = torch.autograd.grad(u_x, x, grad_outputs=torch.ones_like(u_x), create_graph=True)[0]
         
-        # Second spatial derivatives
-        u_xx = torch.autograd.grad(
-            u_x, x,
-            grad_outputs=torch.ones_like(u_x),
-            create_graph=True
-        )[0]
-        u_yy = torch.autograd.grad(
-            u_y, y,
-            grad_outputs=torch.ones_like(u_y),
-            create_graph=True
-        )[0]
+        u_y = torch.autograd.grad(u, y, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+        u_yy = torch.autograd.grad(u_y, y, grad_outputs=torch.ones_like(u_y), create_graph=True)[0]
         
-        # PDE residual: u_t - alpha * (u_xx + u_yy)
-        f = u_t - self.alpha * (u_xx + u_yy)
+        # PDE residual
+        f = u_tt - (self.c ** 2) * (u_xx + u_yy)
         
         return torch.mean(f ** 2)
 
     def generate_data(self, n_samples: int = 1024) -> Dict[str, torch.Tensor]:
         """
-        Generate training data for 2D heat equation.
+        Generate training data for 2D wave equation.
         
         Args:
             n_samples: Number of collocation points
@@ -99,33 +78,32 @@ class Heat2DForward(ForwardProblem):
         Returns:
             Dictionary with IC, BC, and PDE training data
         """
-        # Initial condition: u(x, y, 0) = exp(-10*((x-0.5)^2 + (y-0.5)^2))
+        # Initial condition: u(x, y, 0) = sin(pi*x)*sin(pi*y)
         n_ic = 50
         x_ic = torch.rand(n_ic, 1)
         y_ic = torch.rand(n_ic, 1)
         t_ic = torch.zeros(n_ic, 1)
-        ic_u = torch.exp(-10 * ((x_ic - 0.5) ** 2 + (y_ic - 0.5) ** 2))
+        ic_u = torch.sin(np.pi * x_ic) * torch.sin(np.pi * y_ic)
         
         # Boundary conditions: u = 0 on all edges
         n_bc = 50
         bc_t = torch.rand(n_bc * 4, 1)
         
-        # Four edges
         bc_x = torch.cat([
-            torch.zeros(n_bc, 1),      # x = 0
-            torch.ones(n_bc, 1),       # x = 1
-            torch.rand(n_bc, 1),       # interior edges
-            torch.rand(n_bc, 1)        # interior edges
+            torch.zeros(n_bc, 1),
+            torch.ones(n_bc, 1),
+            torch.rand(n_bc, 1),
+            torch.rand(n_bc, 1)
         ])
         bc_y = torch.cat([
-            torch.rand(n_bc, 1),       # x = 0
-            torch.rand(n_bc, 1),       # x = 1
-            torch.zeros(n_bc, 1),      # y = 0
-            torch.ones(n_bc, 1)        # y = 1
+            torch.rand(n_bc, 1),
+            torch.rand(n_bc, 1),
+            torch.zeros(n_bc, 1),
+            torch.ones(n_bc, 1)
         ])
         bc_u = torch.zeros(n_bc * 4, 1)
         
-        # Collocation points for PDE residual
+        # Collocation points
         f_x = torch.rand(n_samples, 1).requires_grad_(True)
         f_y = torch.rand(n_samples, 1).requires_grad_(True)
         f_t = torch.rand(n_samples, 1).requires_grad_(True)
@@ -146,6 +124,6 @@ class Heat2DForward(ForwardProblem):
 
     def analytical_solution(self, x: np.ndarray, y: np.ndarray, t: np.ndarray) -> np.ndarray:
         """
-        Analytical solution for Gaussian initial condition.
+        Analytical solution for separated initial condition.
         """
-        return np.exp(-10 * ((x - 0.5) ** 2 + (y - 0.5) ** 2) / (1 + 4 * self.alpha * t + 1e-10))
+        return np.sin(np.pi * x) * np.sin(np.pi * y) * np.cos(np.pi * np.sqrt(2) * self.c * t)

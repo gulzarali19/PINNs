@@ -1,18 +1,16 @@
-problem: "heat_2d"
+problem: "poisson_2d"
 network:
-  input_dim: 3  # x, y, t
+  input_dim: 2  # x, y only (time-independent)
   hidden_layers: [128, 128, 128, 128]
   output_dim: 1
   activation: "tanh"
   use_batch_norm: false
 training:
-  epochs: 15000
+  epochs: 8000
   learning_rate: 0.001
   lr_scheduler: "exponential"
   batch_size: 2048
   weight_decay: 0.0
   verbose_interval: 500
 physics:
-  alpha: 0.01  # Thermal diffusivity
-visualization:
-  time_slices: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  source: "gaussian"  # Source term f(x,y)
