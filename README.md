@@ -323,7 +323,7 @@ $$-\nabla^2 u = f(x,y)$$
 ## 📚 References
 
 - **Physics Informed Deep Learning (Part II): Data-driven Discovery of Nonlinear Partial Differential Equations**: [Raissi et al. 2017](https://arxiv.org/abs/1711.10566)
-- **Physics-Informed Neural Networks and Extensions**: [Raissi et al. 2024]([https://arxiv.org/abs/1907.04026](https://arxiv.org/pdf/2408.16806))
+- **Physics-Informed Neural Networks and Extensions**: [Raissi et al. 2024](https://arxiv.org/pdf/2408.16806))
 
 ---
 
